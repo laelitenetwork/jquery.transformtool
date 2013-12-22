@@ -1,4 +1,4 @@
 transformtool
 =============
 
-Kineticjs transform tool utility
+KineticJS transform tool utility.
