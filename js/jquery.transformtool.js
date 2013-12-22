@@ -7,7 +7,7 @@
     /**
      * Default options.
      */
-    var _defaultOptions = {
+    var defaultOptions = {
         'handler-radius': 5,
         'handler-fill': 'white',
         'handler-stroke': 'black',
@@ -103,7 +103,7 @@
      */
     function TransformToolGroup(target, options) {
         this._target = target;
-        this._options = $.extend({}, _defaultOptions, options);
+        this._options = $.extend({}, defaultOptions, options);
         this._rotateHandler = null;
         this._border = null;
         this._selectedHandler = null;
