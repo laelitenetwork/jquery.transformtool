@@ -1,0 +1,35 @@
+{
+  "name": "transformtool",
+  "title": "A KineticJS transform tool utility",
+  "description": "Another jQuery timer plugin.",
+  "keywords": [
+    "jquery",
+    "kineticjs",
+    "transformtool",
+    "plugins"
+  ],
+  "version": "1.0.1",
+  "author": {
+    "name": "Gonzalo Chumillas",
+    "url": "https://github.com/soloproyectos"
+  },
+  "maintainers": [
+    {
+      "name": "Gonzalo Chumillas",
+      "url": "https://github.com/soloproyectos"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "BSD 2-Clause License",
+      "url": "https://raw.github.com/soloproyectos/jquery.transformtool/master/LICENSE"
+    }
+  ],
+  "bugs": "https://github.com/soloproyectos/jquery.transformtool/issues",
+  "homepage": "https://github.com/soloproyectos/jquery.transformtool",
+  "docs": "https://github.com/soloproyectos/jquery.transformtool#readme",
+  "download": "https://github.com/soloproyectos/jquery.transformtool/releases",
+  "dependencies": {
+    "jquery": ">=1.7"
+  }
+}
