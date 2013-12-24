@@ -1,5 +1,5 @@
 /**
- * This file contains the transform tool plugin.
+ * This file contains the jQuery.transformTool v1.0.2 plugin.
  * 
  * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
  * @license  https://raw.github.com/soloproyectos/transformtool/master/LICENSE BSD 2-Clause License
@@ -455,68 +455,111 @@
     }
     
     /**
-     * Shows the transform tool.
+     * Calls the callback function when the stage is ready.
      * 
-     * @param {Kinetic.Shape} target The target
+     * @param {Kinetic.Shape} target   Target
+     * @param {Function}      callback Callback function
      * 
      * @return {Void}
      */
-    function showTransformTool(target) {
-        var rotateGroup = target.getParent();
-        var tool = getTransformToolGroup(target);
-        var stage = target.getStage();
-        
-        if (typeof tool != 'undefined') {
+    function onStageReady(target, callback) {
+        $.timer(0, function () {
+            this.setDelay(1000);
+            
+            var stage = target.getStage();
+            
+            if (typeof stage != 'undefined') {
+                this.stop();
+                callback.apply(target);
+            }
+        }).start();
+    }
+    
+    /**
+     * Shows the transform tool.
+     * 
+     * @param {Kinetic.Shape} target The target
+     * @param {Object}        options Custom options
+     * 
+     * @return {Void}
+     */
+    function showTransformTool(target, options) {
+        initTransformTool(target, options, function (tool) {
+            var stage = target.getStage();
+            var rotateGroup = target.getParent();
+            
             rotateGroup.setDraggable(true);
             tool.show();
             stage.draw();
-        }
+        });
     }
     
     /**
      * Hides the transform tool.
      * 
      * @param {Kinetic.Shape} target The target
+     * @param {Object}        options Custom options
      * 
      * @return {Void}
      */
-    function hideTransformTool(target) {
-        var rotateGroup = target.getParent();
-        var tool = getTransformToolGroup(target);
-        var stage = target.getStage();
-        
-        if (typeof tool != 'undefined') {
+    function hideTransformTool(target, options) {
+        initTransformTool(target, options, function (tool) {
+            var stage = target.getStage();
+            var rotateGroup = target.getParent();
+            
             rotateGroup.setDraggable(false);
             tool.hide();
             stage.draw();
-        }
+        });
     }
     
     /**
      * Hides or shows the transform tool.
      * 
      * @param {Kinetic.Shape} target The target
+     * @param {Object}        options Custom options
      * 
      * @return {Void}
      */
-    function toggleTransformTool(target) {
-        var tool = getTransformToolGroup(target);
-        var stage = target.getStage();
-        
-        if (typeof tool != 'undefined') {
+    function toggleTransformTool(target, options) {
+        initTransformTool(target, options, function (tool) {
             if (tool.getVisible()) {
                 hideTransformTool(target);
             } else {
                 showTransformTool(target);
             }
-        }
+        });
+    }
+    
+    /**
+     * Initializes the transform tool.
+     * 
+     * @param {Kinetic.Shape} target  The target
+     * @param {Object}        options Custom options
+     * @param {Function}      onReady Called when the tool is ready (not required)
+     * 
+     * @return {Void}
+     */
+    function initTransformTool(target, options, onReady) {
+        onStageReady(target, function () {
+            var tool = getTransformToolGroup(target);
+            
+            if (typeof tool == 'undefined') {
+                tool = createTransformTool(target, options);
+            }
+            
+            // calls onReady function
+            if (typeof onReady != 'undefined') {
+                onReady(tool);
+            }
+        });
     }
     
     /**
      * Creates the transform tool.
      * 
      * @param {Kinetic.Shape} target  The target
-     * @pram  {Object}        options Custom options
+     * @param {Object}        options Custom options
      * 
      * @return {Void}
      */
@@ -543,64 +586,44 @@
         });
         
         // creates a new transform tool group
-        var transformToolGroup = new TransformToolGroup(target, options);
-        rotateGroup.add(transformToolGroup);
+        var tool = new TransformToolGroup(target, options);
+        rotateGroup.add(tool);
         
-        // saves the transformToolGroup in the target
-        // we will obtain the transformToolGroup later using getTransformToolGroup()
-        setTransformToolGroup(target, transformToolGroup);
+        // saves the tool in the target
+        // we will obtain the tool later using getTransformToolGroup()
+        setTransformToolGroup(target, tool);
         
         // update the parent
         parent.draw();
+        
+        return tool;
     }
     
     var methods = {
         'init': function(options) {
             return this.each(function() {
-                var target = this;
-                var tool = getTransformToolGroup(target);
+                var tool = getTransformToolGroup(this);
                 
                 if (typeof tool != 'undefined') {
-                    showTransformTool(target);
+                    showTransformTool(this, options);
                 } else {
-                    var stage = target.getStage();
-                    
-                    if (typeof stage != 'undefined') {
-                        // creates the transform tool immediately
-                        createTransformTool(target, options);
-                    } else {
-                        // wait until the target is added to the stage
-                        var interval = setInterval(function () {
-                            stage = target.getStage();
-                            
-                            if (typeof stage != 'undefined') {
-                                clearInterval(interval);
-                                createTransformTool(target, options);
-                            }
-                        }, 100);
-                    }
+                    initTransformTool(this, options);
                 }
             });
         },
-        'hide': function() {
+        'hide': function(options) {
             return this.each(function() {
-                var target = this;
-                
-                hideTransformTool(target);
+                hideTransformTool(this, options);
             });
         },
-        'show': function() {
+        'show': function(options) {
             return this.each(function() {
-                var target = this;
-                
-                showTransformTool(target);
+                showTransformTool(this, options);
             });
         },
-        'toggle': function() {
+        'toggle': function(options) {
             return this.each(function() {
-                var target = this;
-                
-                toggleTransformTool(target);
+                toggleTransformTool(this, options);
             });
         }
     };
