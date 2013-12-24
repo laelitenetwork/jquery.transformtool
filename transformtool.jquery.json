@@ -30,6 +30,7 @@
   "docs": "https://github.com/soloproyectos/jquery.transformtool#readme",
   "download": "https://github.com/soloproyectos/jquery.transformtool/releases",
   "dependencies": {
-    "jquery": ">=1.7"
+    "jquery": ">=1.7",
+    "kineticjs": ">=4.7"
   }
 }
