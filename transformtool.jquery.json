@@ -1,7 +1,7 @@
 {
   "name": "transformtool",
-  "title": "A KineticJS transform tool utility",
-  "description": "Another jQuery timer plugin.",
+  "title": "KineticJS transform tool utility",
+  "description": "A KineticJS transform tool utility",
   "keywords": [
     "jquery",
     "kineticjs",
