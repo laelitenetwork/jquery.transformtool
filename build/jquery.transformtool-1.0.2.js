@@ -21,7 +21,11 @@
         'handler-stroke-width': 2,
         'border-stroke': 'black',
         'border-stroke-width': 2,
-        'rotate-distance': 35
+        'rotate-distance': 35,
+        'allow-rotate': true,
+        'allow-scale': true,
+        'allow-resize': true,
+        'allow-move': true
     };
     
     /**
@@ -120,21 +124,53 @@
         
         // makes the group draggable
         var rotateGroup = this._target.getParent();
-        rotateGroup.setDraggable(true);
+        rotateGroup.setDraggable(this._options['allow-move']);
         
         this.createBorder();
         
         // places handlers on the corners of the target
-        this.addHandler(TransformToolGroup.LEFT, TransformToolGroup.TOP);
-        this.addHandler(TransformToolGroup.RIGHT, TransformToolGroup.TOP);
-        this.addHandler(TransformToolGroup.LEFT, TransformToolGroup.BOTTOM);
-        this.addHandler(TransformToolGroup.RIGHT, TransformToolGroup.BOTTOM);
+        this.addHandler(
+            TransformToolGroup.LEFT,
+            TransformToolGroup.TOP,
+            this._options['allow-scale']
+        );
+        this.addHandler(
+            TransformToolGroup.RIGHT,
+            TransformToolGroup.TOP,
+            this._options['allow-scale']
+        );
+        this.addHandler(
+            TransformToolGroup.LEFT,
+            TransformToolGroup.BOTTOM,
+            this._options['allow-scale']
+        );
+        this.addHandler(
+            TransformToolGroup.RIGHT,
+            TransformToolGroup.BOTTOM,
+            this._options['allow-scale']
+        );
         
         // places handlers on the sides of the target
-        this.addHandler(TransformToolGroup.CENTER, TransformToolGroup.TOP);
-        this.addHandler(TransformToolGroup.LEFT, TransformToolGroup.MIDDLE);
-        this.addHandler(TransformToolGroup.RIGHT, TransformToolGroup.MIDDLE);
-        this.addHandler(TransformToolGroup.CENTER, TransformToolGroup.BOTTOM);
+        this.addHandler(
+            TransformToolGroup.CENTER,
+            TransformToolGroup.TOP,
+            this._options['allow-resize']
+        );
+        this.addHandler(
+            TransformToolGroup.LEFT,
+            TransformToolGroup.MIDDLE,
+            this._options['allow-resize']
+        );
+        this.addHandler(
+            TransformToolGroup.RIGHT,
+            TransformToolGroup.MIDDLE,
+            this._options['allow-resize']
+        );
+        this.addHandler(
+            TransformToolGroup.CENTER,
+            TransformToolGroup.BOTTOM,
+            this._options['allow-resize']
+        );
         
         this.createRotateHandler();
         this.update();
@@ -225,10 +261,10 @@
                     rotateGroup.setRotation(angle);
                 }
                 
-                return pos; // <!- restringido
+                return pos;
             }
         });
-        
+        this._rotateHandler.setVisible(this._options['allow-rotate']);
         this._rotateHandler.on('dragmove', function() {
             self.update();
         });
@@ -240,12 +276,13 @@
     /**
      * Adds a handler.
      * 
-     * @param {Number} hAlign Horizontal alignment (left: -1, center: 0, right: 1)
-     * @param {Number} vAlign Vertical alignment (top: -1, middle: 0, bottom: 1)
+     * @param {Number}  hAlign  Horizontal alignment (left: -1, center: 0, right: 1)
+     * @param {Number}  vAlign  Vertical alignment (top: -1, middle: 0, bottom: 1)
+     * @param {Boolean} visible Is the handler visible?
      * 
      * @return {Handler}
      */
-    TransformToolGroup.prototype.addHandler = function (hAlign, vAlign) {
+    TransformToolGroup.prototype.addHandler = function (hAlign, vAlign, visible) {
         var self = this;
         var handler = new Handler(
             hAlign,
@@ -256,6 +293,8 @@
             this._options['handler-stroke-width']
         );
         var boundaryLine = {point: {x: 0, y: 0}, vector: {x: 0, y: 0}};
+        
+        handler.setVisible(visible);
         
         // the dragging is restricted to the points of the boundary line
         handler.setDragBoundFunc(function (pos) {
@@ -371,15 +410,20 @@
         var rightMiddle = {x: targetX + targetWidth, y: targetY + targetHeight / 2};
         var centerBottom = {x: targetX + targetWidth / 2, y: targetY + targetHeight};
         
-        this._border.setPoints([
-            rotate,
+        // adds points to the border
+        var points = [
             centerTop,
             leftTop,
             leftBottom,
             rightBottom,
             rightTop,
             centerTop
-        ]);
+        ];
+        if (this._options['allow-rotate']) {
+            points.unshift(rotate);
+        }
+        this._border.setPoints(points);
+        
         
         // sets rotate handler position
         this._rotateHandler.setPosition(rotate);
