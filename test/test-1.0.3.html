@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery Transform Tool 1.0.3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="../lib/jquery-11.0.min.js"></script>
+    <script type="text/javascript" src="../lib/jquery.timer-1.0.3.js"></script>
+    <script type="text/javascript" src="../lib/kinetic-v5.1.1.min.js"></script>
+    <script type="text/javascript" src="../src/jquery.transformtool-1.0.3.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var _stage = null;
+            var _layer = null;
+            
+            _stage = new Kinetic.Stage({
+                container: 'canvas',
+                width: 640,
+                height: 480
+            });
+            _layer = new Kinetic.Layer();
+            
+            var rect1 = new Kinetic.Rect({
+                x: 100,
+                y: 100,
+                width: 150,
+                height: 100,
+                fill: 'yellow',
+                stroke: 'black'
+            });
+            _layer.add(rect1);
+            
+            var rect2 = new Kinetic.Rect({
+                x: 300,
+                y: 250,
+                width: 200,
+                height: 80,
+                fill: 'green',
+                stroke: 'black'
+            });
+            _layer.add(rect2);
+            
+            _stage.add(_layer);
+            _stage.draw();
+            
+            // creates a transform tool for the first rectangle
+            $(rect1).transformTool({
+                'handler-radius': 7,
+                'handler-fill': 'gray',
+                'border-stroke': '#333333'
+            });
+            
+            // creates a transform tool for the second rectangle
+            $(rect2).transformTool();
+            
+            // hides or shows transform tool 1
+            $('#toggle1').click(function() {
+                $(rect1).transformTool('toggle');
+            });
+            
+            // hides or shows transform tool 2
+            $('#toggle2').click(function() {
+                $(rect2).transformTool('toggle');
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="canvas"></div>
+<input id="toggle1" type="button" value="Hide or show transform tool 1" />
+<input id="toggle2" type="button" value="Hide or show transform tool 2" />
+</body>
+</html>
