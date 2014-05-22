@@ -1,6 +1,6 @@
 {
   "name": "transformtool",
-  "title": "KineticJS transform tool utility",
+  "title": "KineticJS Transform tool utility",
   "description": "A KineticJS transform tool utility",
   "keywords": [
     "jquery",
@@ -8,7 +8,7 @@
     "transformtool",
     "plugins"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "Gonzalo Chumillas",
     "url": "https://github.com/soloproyectos"
@@ -16,19 +16,21 @@
   "maintainers": [
     {
       "name": "Gonzalo Chumillas",
-      "url": "https://github.com/soloproyectos"
+      "url": "https://github.com/laelitenetwork",
+      "name": "José SAYAGO",
+      "url": "https://github.com/laelitenetwork",
     }
   ],
   "licenses": [
     {
       "type": "BSD 2-Clause License",
-      "url": "https://raw.github.com/soloproyectos/jquery.transformtool/master/LICENSE"
+      "url": "https://raw.github.com/laelitenetwork/jquery.transformtool/master/LICENSE"
     }
   ],
-  "bugs": "https://github.com/soloproyectos/jquery.transformtool/issues",
-  "homepage": "https://github.com/soloproyectos/jquery.transformtool",
-  "docs": "https://github.com/soloproyectos/jquery.transformtool#readme",
-  "download": "https://github.com/soloproyectos/jquery.transformtool/releases",
+  "bugs": "https://github.com/laelitenetwork/jquery.transformtool/issues",
+  "homepage": "https://github.com/laelitenetwork/jquery.transformtool",
+  "docs": "https://github.com/laelitenetwork/jquery.transformtool#readme",
+  "download": "https://github.com/laelitenetwork/jquery.transformtool/releases",
   "dependencies": {
     "jquery": ">=1.7",
     "kineticjs": ">=4.7"
