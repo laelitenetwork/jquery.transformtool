@@ -1,9 +1,9 @@
 Transform Tool
 ==============
 
-A jQuery transform tool utility for the graphic library KineticJS.
+A jQuery transform tool utility for the HTML5 Canvas library KineticJS. Originally created by Gonzalo Chumillas (up to version 1.0.2), improved by José SAYAGO to add compatibility with latest versions of this library.
 
-This library simplifies transforming elements with, height and rotation combining the power
+This library simplifies transforming elements' width, height and rotation combining the power
 of jQuery with KineticJS.
 
 Working Example
